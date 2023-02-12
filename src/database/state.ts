@@ -1,7 +1,7 @@
 import { State } from "../classes/state.js";
 import { con } from "./connection.js";
 
-class StateBD {
+class StateDB {
 
   #con: any;
 
@@ -31,4 +31,4 @@ class StateBD {
 
 };
 
-export { StateBD };
+export { StateDB };

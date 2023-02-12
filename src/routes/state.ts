@@ -1,9 +1,8 @@
 import express from 'express';
-import { State } from '../classes/state.js';
-import { StateBD } from '../database/state.js';
+import { StateDB } from '../database/state.js';
 
 const stateRoutes = express();
-const statebd = new StateBD();
+const statebd = new StateDB();
 
 stateRoutes.get('/get-states', async (req, res) => {
 
