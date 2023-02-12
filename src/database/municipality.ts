@@ -11,7 +11,9 @@ class MunicipalityDB {
 
   getMunicipalitys = () => {
     const promise = new Promise<Municipality[]>((resolve) => {
-      this.#con.query('Select * from cmunicipality', (error: any, result: any) => {
+      this.#con.query(`
+        SELECT * FROM cmunicipality;
+      `, (error: any, result: any) => {
         if (error) {
           console.error(error);
         } else {

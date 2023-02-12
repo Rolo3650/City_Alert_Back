@@ -11,7 +11,9 @@ class StateDB {
 
   getStates = () => {
     const promise = new Promise<State[]>((resolve) => {
-      this.#con.query('Select * from cstate', (error: any, result: any) => {
+      this.#con.query(`
+        SELECT * FROM cstate;
+      `, (error: any, result: any) => {
         if (error) {
           console.error(error);
         } else {
