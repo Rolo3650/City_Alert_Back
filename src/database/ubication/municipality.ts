@@ -1,4 +1,4 @@
-import { Municipality } from "../classes/municipality.js";
+import { Municipality } from "../../classes/ubication/municipality.js";
 import { con } from "./connection.js";
 
 class MunicipalityDB {

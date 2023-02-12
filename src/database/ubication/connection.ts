@@ -1,5 +1,5 @@
 import mysql from 'mysql';
-import { config } from '../utils/config.js';
+import { config } from '../../utils/config.js';
 
 const con = mysql.createConnection({
   host: config.DB_HOST,

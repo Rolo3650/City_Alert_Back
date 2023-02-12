@@ -1,5 +1,5 @@
 import express from 'express';
-import { StateDB } from '../database/state.js';
+import { StateDB } from '../../database/ubication/state.js';
 
 const stateRoutes = express();
 const statebd = new StateDB();

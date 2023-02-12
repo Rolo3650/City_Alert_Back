@@ -1,4 +1,4 @@
-import { State } from "../classes/state.js";
+import { State } from "../../classes/ubication/state.js";
 import { con } from "./connection.js";
 
 class StateDB {

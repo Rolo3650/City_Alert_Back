@@ -1,15 +1,15 @@
 import express from 'express';
-import { municipalityRoutes } from './municipality.js';
-import { postalCodeRoutes } from './postalCodes.js';
-import { stateRoutes } from './state.js';
-import { userRoutes } from './user.js';
+import { municipalityRoutes } from './ubication/municipality.js';
+import { postalCodeRoutes } from './ubication/postalCodes.js';
+import { stateRoutes } from './ubication/state.js';
+import { userRoutes } from './user/user.js';
 
 const router = express();
 
-//user routes
+// user routes
 router.use('/', userRoutes);
 
-//location routes
+// ubication routes
 router.use('/', stateRoutes);
 router.use('/', municipalityRoutes);
 router.use('/', postalCodeRoutes);

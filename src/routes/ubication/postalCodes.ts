@@ -1,5 +1,5 @@
 import express from 'express';
-import { PostalCodeDB } from '../database/postalCode.js';
+import { PostalCodeDB } from '../../database/ubication/postalCode.js';
 
 const postalCodeRoutes = express();
 const postalCodebd = new PostalCodeDB();

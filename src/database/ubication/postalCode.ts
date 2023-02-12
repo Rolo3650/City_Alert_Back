@@ -1,6 +1,6 @@
-import { Municipality } from "../classes/municipality.js";
-import { PostalCode } from "../classes/postalCode.js";
-import { State } from "../classes/state.js";
+import { Municipality } from "../../classes/ubication/municipality.js";
+import { PostalCode } from "../../classes/ubication/postalCode.js";
+import { State } from "../../classes/ubication/state.js";
 import { con } from "./connection.js";
 
 class PostalCodeDB {

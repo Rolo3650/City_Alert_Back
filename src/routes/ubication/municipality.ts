@@ -1,5 +1,5 @@
 import express from 'express';
-import { MunicipalityDB } from '../database/municipality.js';
+import { MunicipalityDB } from '../../database/ubication/municipality.js';
 
 const municipalityRoutes = express();
 const municipalitybd = new MunicipalityDB();
