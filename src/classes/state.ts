@@ -1,4 +1,4 @@
-export class State {
+class State {
 
   #id_state: number | undefined | null;
   #state: string | undefined | null;
@@ -17,3 +17,5 @@ export class State {
   };
 
 };
+
+export { State };

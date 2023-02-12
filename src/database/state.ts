@@ -1,0 +1,34 @@
+import { State } from "../classes/state.js";
+import { con } from "./connection.js";
+
+class StateBD {
+
+  #con: any;
+
+  constructor() {
+    this.#con = con;
+  }
+
+  getStates = () => {
+    const promise = new Promise<State[]>((resolve) => {
+      this.#con.query('Select * from cstate', (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          if (result) {
+            let states: State[] = result.map((data: any) => {
+              return new State(data.id_state, data.state)
+            }
+            );
+
+            resolve(states);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
+};
+
+export { StateBD };

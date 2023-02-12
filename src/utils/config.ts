@@ -1,5 +1,5 @@
 const config = {
-  PORT: 3000,
+  PORT: 4000,
   DB_HOST: 'localhost',
   DB_USER: 'root',
   DB_PASSWORD: 'Roja161203.',
