@@ -7,7 +7,7 @@ stateRoutes.get('/get-states', (req, res) => {
 
 
 
-})
+});
 
 
 export { stateRoutes };

@@ -14,5 +14,5 @@ app.listen(config.PORT, () => {
   console.log(`Sirviendo en el puerto: ${config.PORT} \n`);
 });
 
-app.use('/', router)
+app.use('/', router);
 
