@@ -1,5 +1,5 @@
 import { State } from "../../classes/ubication/state.js";
-import { con } from "./connection.js";
+import { con } from "../connection.js";
 
 class StateDB {
 
@@ -12,8 +12,9 @@ class StateDB {
   getStates = () => {
     const promise = new Promise<State[]>((resolve) => {
       this.#con.query(`
-        SELECT * FROM cstate;
-      `, (error: any, result: any) => {
+        SELECT * FROM cstate
+        ORDER BY 'id_state' DESC
+      ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
         } else {

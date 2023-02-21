@@ -1,5 +1,5 @@
 import { SettlementType } from "../../classes/ubication/settlementType.js";
-import { con } from "./connection.js";
+import { con } from "../connection.js";
 
 class SettlementTypeDB {
 
@@ -12,8 +12,9 @@ class SettlementTypeDB {
   getSettlementTypes = () => {
     const promise = new Promise<SettlementType[]>((resolve) => {
       this.#con.query(`
-        SELECT * FROM csettlementtype;
-      `, (error: any, result: any) => {
+        SELECT * FROM csettlementtype
+        ORDER BY 'id_settlement_type' DESC
+      ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
         } else {

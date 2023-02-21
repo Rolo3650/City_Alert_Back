@@ -1,5 +1,5 @@
 import { Municipality } from "../../classes/ubication/municipality.js";
-import { con } from "./connection.js";
+import { con } from "../connection.js";
 
 class MunicipalityDB {
 
@@ -12,8 +12,9 @@ class MunicipalityDB {
   getMunicipalitys = () => {
     const promise = new Promise<Municipality[]>((resolve) => {
       this.#con.query(`
-        SELECT * FROM cmunicipality;
-      `, (error: any, result: any) => {
+        SELECT * FROM cmunicipality
+        ORDER BY 'id_municipality' DESC
+      ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
         } else {

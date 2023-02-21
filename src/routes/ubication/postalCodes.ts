@@ -9,7 +9,7 @@ postalCodeRoutes.get('/get-postal-codes', middleware, async (req, res) => {
 
   const postalCodes = await postalCodebd.getPostalCodes();
   const postalCodes_array = postalCodes.map(postalCode => ({
-    id_postalCode: postalCode.getIdState(),
+    id_postalCode: postalCode.getIdPC(),
     state: {
       id_state: postalCode.getState()?.getIdState(),
       state: postalCode.getState()?.getState(),
@@ -21,6 +21,7 @@ postalCodeRoutes.get('/get-postal-codes', middleware, async (req, res) => {
   }));
 
   return res.status(200).send({
+    ok: true,
     postalCodes_array
   });
 

@@ -13,7 +13,7 @@ class PostalCode {
       this.#municipality = municipality;
   };
 
-  getIdState = () => {
+  getIdPC = () => {
       return this.#zip_pc;
   };
 

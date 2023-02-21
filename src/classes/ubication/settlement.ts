@@ -1,14 +1,14 @@
-import { PostalCodeDB } from "../../database/ubication/postalCode";
+import { PostalCode } from "./postalCode";
 import { SettlementType } from "./settlementType";
 
 class Settlement {
 
   #id_stettlement: number | undefined | null;
   #name: string | undefined | null;
-  #zip_pc: PostalCodeDB | undefined | null;
+  #zip_pc: PostalCode | undefined | null;
   #settlement_type: SettlementType | undefined | null;
 
-  constructor(id_stettlement: number | undefined | null, name: string | undefined | null, zip_pc: PostalCodeDB | undefined | null, settlement_type: SettlementType | undefined | null) {
+  constructor(id_stettlement: number | undefined | null, name: string | undefined | null, zip_pc: PostalCode | undefined | null, settlement_type: SettlementType | undefined | null) {
     this.#id_stettlement = id_stettlement;
     this.#name = name;
     this.#zip_pc = zip_pc;

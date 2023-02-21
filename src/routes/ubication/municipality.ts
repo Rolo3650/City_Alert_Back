@@ -14,6 +14,7 @@ municipalityRoutes.get('/get-municipalities', middleware, async (req, res) => {
   }));
 
   return res.status(200).send({
+    ok: true,
     municipalities_array
   });
 

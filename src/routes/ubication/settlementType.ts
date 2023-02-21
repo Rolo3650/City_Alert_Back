@@ -14,6 +14,7 @@ settlementTypeRoutes.get('/get-settlement-types', middleware, async (req, res) =
   }));
 
   return res.status(200).send({
+    ok: true,
     settlement_types_array
   });
 
