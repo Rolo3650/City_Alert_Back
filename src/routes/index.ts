@@ -1,6 +1,7 @@
 import express from 'express';
 import { municipalityRoutes } from './ubication/municipality.js';
 import { postalCodeRoutes } from './ubication/postalCodes.js';
+import { settlementTypeRoutes } from './ubication/settlementType.js';
 import { stateRoutes } from './ubication/state.js';
 import { userRoutes } from './user/user.js';
 
@@ -13,5 +14,6 @@ router.use('/', userRoutes);
 router.use('/', stateRoutes);
 router.use('/', municipalityRoutes);
 router.use('/', postalCodeRoutes);
+router.use('/', settlementTypeRoutes);
 
 export { router };

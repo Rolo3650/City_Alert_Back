@@ -1,10 +1,11 @@
 import express from 'express';
 import { StateDB } from '../../database/ubication/state.js';
+import { middleware } from '../../middleware/index.js';
 
 const stateRoutes = express();
 const statebd = new StateDB();
 
-stateRoutes.get('/get-states', async (req, res) => {
+stateRoutes.get('/get-states', middleware, async (req, res) => {
 
   const states = await statebd.getStates();
   const states_array = states.map(state => ({
