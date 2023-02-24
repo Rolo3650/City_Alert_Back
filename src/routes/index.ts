@@ -1,4 +1,5 @@
 import express from 'express';
+import { publicationTypeRoutes } from './publication/publicationType.js';
 import { municipalityRoutes } from './ubication/municipality.js';
 import { postalCodeRoutes } from './ubication/postalCodes.js';
 import { settlementRoutes } from './ubication/settlement.js';
@@ -27,5 +28,8 @@ router.use('/', municipalityRoutes);
 router.use('/', postalCodeRoutes);
 router.use('/', settlementTypeRoutes);
 router.use('/', settlementRoutes);
+
+// publication routes
+router.use('/', publicationTypeRoutes);
 
 export { router };

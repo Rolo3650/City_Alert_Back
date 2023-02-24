@@ -35,11 +35,11 @@ class User {
     return this.#create_date;
   };
 
-  getSex = () => {
+  getPerson = () => {
     return this.#person;
   };
 
-  getSettlement = () => {
+  getUserType = () => {
     return this.#user_type;
   };
 

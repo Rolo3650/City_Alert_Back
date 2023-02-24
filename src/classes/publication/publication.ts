@@ -1,6 +1,8 @@
 import { Settlement } from '../ubication/settlement';
 import { User } from '../user/user';
+import { PublicationImage } from './image';
 import { PublicationType } from './publicationType';
+import { Reaction } from './reaction';
 
 class Publication {
 
@@ -12,6 +14,9 @@ class Publication {
   #publication_type: PublicationType | undefined | null;
   #user: User | undefined | null;
   #settlement: Settlement | undefined | null;
+  #reactions: Reaction[] | undefined | null;
+  #images: PublicationImage[] | undefined | null;
+  #coments: Comment[] | undefined | null;
 
   constructor(
     id_publication: number | undefined | null,
@@ -21,7 +26,10 @@ class Publication {
     solved: boolean | undefined | null,
     publication_type: PublicationType | undefined | null,
     user: User | undefined | null,
-    settlement: Settlement | undefined | null
+    settlement: Settlement | undefined | null,
+    reactions: Reaction[] | undefined | null,
+    coments: Comment[] | undefined | null,
+    images: PublicationImage[] | undefined | null
   ) {
 
     this.#id_publication = id_publication;
@@ -32,7 +40,9 @@ class Publication {
     this.#publication_type = publication_type;
     this.#user = user;
     this.#settlement = settlement;
-
+    this.#reactions = reactions;
+    this.#coments = coments;
+    this.#images = images;
   };
 
   getIdPublication = () => {
@@ -65,6 +75,18 @@ class Publication {
 
   getSettlement = () => {
     return this.#settlement
+  };
+
+  getReactions = () => {
+    return this.#reactions
+  };
+
+  getImages = () => {
+    return this.#images
+  };
+
+  getComents = () => {
+    return this.#coments
   };
 
 };
