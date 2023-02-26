@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Municipality } from "../../classes/ubication/municipality.js";
 import { PostalCode } from "../../classes/ubication/postalCode.js";
 import { Settlement } from "../../classes/ubication/settlement.js";
@@ -48,6 +49,42 @@ class PersonDB {
             );
 
             resolve(persons);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
+  savePerson = (person: Person | null | undefined) => {
+    const promise = new Promise<boolean>((resolve) => {
+      this.#con.query(`
+      INSERT INTO mperson(
+        \`id_person\`,
+        \`name\`,
+        \`last_name\`,
+        \`birthday\`,
+        \`id_sex\`,
+        \`id_settlement\`)
+        VALUES (
+        '${person?.getIdPerson()}',
+        '${person?.getName()}',
+        '${person?.getLastName()}',
+        '${moment(person?.getBirthday()).format("YYYY-MM-DD")}',
+        '${person?.getSex()?.getIdSex()}',
+        '${person?.getSettlement()?.getIdSettlement()}');
+      ;`, (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          if (result) {
+            if (result.serverStatus == 2){
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          } else {
+            resolve(false);
           };
         };
       });

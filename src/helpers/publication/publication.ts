@@ -1,6 +1,6 @@
 import { Publication } from "../../classes/publication/publication";
 
-const returnPublication = (publication: Publication) => {
+const returnPublicationJSON = (publication: Publication) => {
   return {
     id_publication: publication.getIdPublication(),
     description: publication.getDescription(),
@@ -161,4 +161,4 @@ const returnPublication = (publication: Publication) => {
   };
 };
 
-export { returnPublication };
+export { returnPublicationJSON };

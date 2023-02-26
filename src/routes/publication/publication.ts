@@ -4,7 +4,7 @@ import { ImageDB } from '../../database/publication/image.js';
 import { PublicationDB } from '../../database/publication/publication.js';
 import { ReactionDB } from '../../database/publication/reaction.js';
 import { UserDB } from '../../database/user/user.js';
-import { returnPublication } from '../../helpers/publication/publication.js';
+import { returnPublicationJSON } from '../../helpers/publication/publication.js';
 import { middleware } from '../../middleware/index.js';
 
 const publicationRoutes = express();
@@ -31,7 +31,7 @@ publicationRoutes.get('/get-publications', middleware, async (req, res) => {
   }
 
   const publications_array = publications.map((publication) => {
-    return returnPublication(publication)
+    return returnPublicationJSON(publication)
   });
 
   return res.status(200).send({
