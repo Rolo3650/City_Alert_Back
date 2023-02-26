@@ -1,5 +1,6 @@
 import { Settlement } from '../ubication/settlement';
 import { User } from '../user/user';
+import { Coment } from './coment';
 import { PublicationImage } from './image';
 import { PublicationType } from './publicationType';
 import { Reaction } from './reaction';
@@ -16,7 +17,7 @@ class Publication {
   #settlement: Settlement | undefined | null;
   #reactions: Reaction[] | undefined | null;
   #images: PublicationImage[] | undefined | null;
-  #coments: Comment[] | undefined | null;
+  #coments: Coment[] | undefined | null;
 
   constructor(
     id_publication: number | undefined | null,
@@ -28,7 +29,7 @@ class Publication {
     user: User | undefined | null,
     settlement: Settlement | undefined | null,
     reactions: Reaction[] | undefined | null,
-    coments: Comment[] | undefined | null,
+    coments: Coment[] | undefined | null,
     images: PublicationImage[] | undefined | null
   ) {
 
@@ -87,6 +88,22 @@ class Publication {
 
   getComents = () => {
     return this.#coments
+  };
+
+  setUser = (user: User | undefined | null) => {
+    this.#user = user
+  };
+
+  setReactions = (reactions: Reaction[] | undefined | null) => {
+    this.#reactions = reactions
+  };
+
+  setComents = (coments: Coment[] | undefined | null) => {
+    this.#coments = coments
+  };
+
+  setImages = (images: PublicationImage[] | undefined | null) => {
+    this.#images = images
   };
 
 };

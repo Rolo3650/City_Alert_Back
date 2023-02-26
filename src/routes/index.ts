@@ -1,5 +1,9 @@
 import express from 'express';
+import { comentRoutes } from './publication/coment.js';
+import { imageRoutes } from './publication/image.js';
+import { publicationRoutes } from './publication/publication.js';
 import { publicationTypeRoutes } from './publication/publicationType.js';
+import { reactionRoutes } from './publication/reaction.js';
 import { municipalityRoutes } from './ubication/municipality.js';
 import { postalCodeRoutes } from './ubication/postalCodes.js';
 import { settlementRoutes } from './ubication/settlement.js';
@@ -31,5 +35,9 @@ router.use('/', settlementRoutes);
 
 // publication routes
 router.use('/', publicationTypeRoutes);
+router.use('/', imageRoutes);
+router.use('/', comentRoutes);
+router.use('/', reactionRoutes);
+router.use('/', publicationRoutes);
 
 export { router };

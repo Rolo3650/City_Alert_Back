@@ -19,12 +19,12 @@ class PublicationTypeDB {
           console.error(error);
         } else {
           if (result) {
-            let publicationTypess: PublicationType[] = result.map((data: any) => {
+            let publicationTypes: PublicationType[] = result.map((data: any) => {
               return new PublicationType(data.id_publication_type, data.publication_type)
             }
             );
 
-            resolve(publicationTypess);
+            resolve(publicationTypes);
           };
         };
       });
