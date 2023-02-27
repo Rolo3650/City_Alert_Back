@@ -66,6 +66,34 @@ class UserDB {
     return promise;
   }
 
+  getUserEmail = (email: string | null | undefined) => {
+    const promise = new Promise<User>((resolve) => {
+      this.#con.query(`
+        SELECT * FROM muser AS us
+        INNER JOIN cusertype AS cu ON us.id_user_type = cu.id_user_type
+        INNER JOIN mperson AS pe ON us.id_person = pe.id_person
+        INNER JOIN csex AS sx ON pe.id_sex = sx.id_sex
+        INNER JOIN msettlement AS stl ON pe.id_settlement = stl.id_settlement
+        INNER JOIN cpostalcode AS pc ON stl.id_zip_pc = pc.zip_pc
+        INNER JOIN cstate AS st ON pc.id_state = st.id_state
+        INNER JOIN cmunicipality AS mu ON pc.id_municipality = mu.id_municipality
+        INNER JOIN csettlementtype AS stl_type ON stl.id_settlement_type = stl_type.id_settlement_type
+        WHERE us.email = "${email}"
+        ORDER BY \`id_user\` DESC
+      ;`, (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          if (result) {
+            let users: User = result.map((data: any) => returnUser(data))[0];
+            resolve(users);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
   getLastUser = () => {
     const promise = new Promise<User[]>((resolve) => {
       this.#con.query(`
@@ -145,7 +173,6 @@ class UserDB {
           console.error(error);
         } else {
           if (result) {
-            console.log(result)
             if (result.serverStatus == 2){
               resolve(true);
             } else {
