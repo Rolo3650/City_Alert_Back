@@ -6,12 +6,12 @@ import { returnUser, returnUserJSON } from '../../helpers/user/user.js';
 import { middleware } from '../../middleware/index.js';
 
 const userRoutes = express();
-const userbd = new UserDB();
+const userdb = new UserDB();
 const personbd = new PersonDB();
 
 userRoutes.get('/get-users', middleware, async (req, res) => {
 
-  const users = await userbd.getUsers();
+  const users = await userdb.getUsers();
   const users_array = users.map(user => returnUserJSON(user));
 
   return res.status(200).send({
@@ -27,10 +27,10 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
 
   if (body.email && body.name && body.last_name && body.birthday && body.id_sex && body.id_settlement && body.password && body.create_date) {
 
-    const already_exist = await userbd.userExist(body.email)
+    const already_exist = await userdb.userExist(body.email)
 
     if (already_exist.length == 0) {
-      const last_user = (await userbd.getLastUser())[0];
+      const last_user = (await userdb.getLastUser())[0];
       body.id_person = <number>last_user.getIdUser() + 1;
       body.id_user = <number>last_user.getIdUser() + 1;
       body.id_user_type = 2
@@ -59,10 +59,10 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
 
           const save_person = await personbd.savePerson(new_user.getPerson());
           if (save_person) {
-            const save_user = await userbd.saveUser(new_user);
+            const save_user = await userdb.saveUser(new_user);
 
             if (save_user) {
-              const response_user = await userbd.getUser(new_user.getIdUser());
+              const response_user = await userdb.getUser(new_user.getIdUser());
               return res.status(200).send({
                 ok: true,
                 user: returnUserJSON(response_user)
@@ -105,13 +105,13 @@ userRoutes.post('/sign-in', middleware, async (req, res) => {
 
   if (body.email && body.password) {
 
-    const already_exist = await userbd.userExist(body.email)
+    const already_exist = await userdb.userExist(body.email)
 
     if (already_exist.length == 1) {
 
-      const user = await userbd.getUserEmail(body.email)
+      const user = await userdb.getUserEmail(body.email)
 
-      bcrypt.compare(body.password, <string> user.getPassword(), (err, result) => {
+      bcrypt.compare(body.password, <string>user.getPassword(), (err, result) => {
         if (result) {
           return res.status(200).send({
             ok: true,
@@ -133,6 +133,51 @@ userRoutes.post('/sign-in', middleware, async (req, res) => {
     }
 
   }
+})
+
+userRoutes.delete("/delete-user", middleware, async (req, res) => {
+
+  let { body } = req;
+
+  if (body.id_user && body.id_person) {
+
+    let id_user = <number>body.id_user;
+
+    let user = returnUser(body)
+
+    const deletedUser = await userdb.deleteUser(user)
+
+    if (deletedUser) {
+      const deletedPerson = await personbd.deletePerson(user.getPerson());
+
+      if (deletedPerson) {
+
+        return res.status(200).send({
+          ok: true,
+          error: `Deleted user with id ${id_user}`
+        })
+
+      } else {
+        return res.status(200).send({
+          ok: false,
+          error: "Data Base Error"
+        });
+      }
+
+    } else {
+      return res.status(200).send({
+        ok: false,
+        error: "Data Base Error"
+      });
+    }
+
+  } else {
+    return res.status(200).send({
+      ok: false,
+      error: "Missing Params"
+    })
+  }
+
 })
 
 export { userRoutes };

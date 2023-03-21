@@ -173,7 +173,31 @@ class UserDB {
           console.error(error);
         } else {
           if (result) {
-            if (result.serverStatus == 2){
+            if (result.serverStatus == 2) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          } else {
+            resolve(false);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
+  deleteUser = (user: User | null | undefined) => {
+    const promise = new Promise<boolean>((resolve) => {
+      this.#con.query(`
+      DELETE FROM muser WHERE (\`id_user\` = '${user?.getIdUser()}')
+      ;`, (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+          resolve(false);
+        } else {
+          if (result) {
+            if (result.serverStatus == 2) {
               resolve(true);
             } else {
               resolve(false);

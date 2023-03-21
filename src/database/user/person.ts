@@ -72,10 +72,34 @@ class PersonDB {
         '${person?.getLastName()}',
         '${moment(person?.getBirthday()).format("YYYY-MM-DD")}',
         '${person?.getSex()?.getIdSex()}',
-        '${person?.getSettlement()?.getIdSettlement()}');
+        '${person?.getSettlement()?.getIdSettlement()}')
       ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
+        } else {
+          if (result) {
+            if (result.serverStatus == 2){
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          } else {
+            resolve(false);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
+  deletePerson = (person: Person | null | undefined) => {
+    const promise = new Promise<boolean>((resolve) => {
+      this.#con.query(`
+      DELETE FROM mperson WHERE (\`id_person\` = '${person?.getIdPerson()}')
+      ;`, (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+          resolve(false);
         } else {
           if (result) {
             if (result.serverStatus == 2){
