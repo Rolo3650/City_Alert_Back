@@ -8,6 +8,7 @@ import { Person } from "../../classes/user/person.js";
 import { Sex } from "../../classes/user/sex.js";
 import { User } from "../../classes/user/user.js";
 import { UserType } from "../../classes/user/userType.js";
+import { returnComent } from "../../helpers/publication/coment.js";
 import { con } from "../connection.js";
 
 class ComentDB {
@@ -37,28 +38,7 @@ class ComentDB {
           console.error(error);
         } else {
           if (result) {
-            let coments: Coment[] = result.map((data: any) => {
-              const st = new State(data.id_state, data.state);
-              const mn = new Municipality(data.id_municipality, data.municipality);
-
-              const pc = new PostalCode(data.zip_pc, st, mn);
-
-              const stl_type = new SettlementType(data.id_settlement_type, data.settlement_type);
-
-              const stl = new Settlement(data.id_settlement, data.settlement, pc, stl_type);
-
-              const sex = new Sex(data.id_sex, data.sex);
-
-              const pe = new Person(data.id_person, data.name, data.last_name, new Date(data.birthday), sex, stl);
-
-              const us_type = new UserType(data.id_user_type, data.user_type)
-
-              const us = new User(data.id_user, data.email, data.password, new Date(data.create_date), pe, us_type)
-
-
-              return new Coment(data.id_coment, data.coment, new Date(data.date), data.deleted ? true : false, us)
-            }
-            );
+            let coments: Coment[] = result.map((data: any) => returnComent(data));
 
             resolve(coments);
           };
@@ -88,28 +68,7 @@ class ComentDB {
           console.error(error);
         } else {
           if (result) {
-            let coments: Coment[] = result.map((data: any) => {
-              const st = new State(data.id_state, data.state);
-              const mn = new Municipality(data.id_municipality, data.municipality);
-
-              const pc = new PostalCode(data.zip_pc, st, mn);
-
-              const stl_type = new SettlementType(data.id_settlement_type, data.settlement_type);
-
-              const stl = new Settlement(data.id_settlement, data.settlement, pc, stl_type);
-
-              const sex = new Sex(data.id_sex, data.sex);
-
-              const pe = new Person(data.id_person, data.name, data.last_name, new Date(data.birthday), sex, stl);
-
-              const us_type = new UserType(data.id_user_type, data.user_type)
-
-              const us = new User(data.id_user, data.email, data.password, new Date(data.create_date), pe, us_type)
-
-
-              return new Coment(data.id_coment, data.coment, new Date(data.date), data.deleted ? true : false, us)
-            }
-            );
+            let coments: Coment[] = result.map((data: any) => returnComent(data));
 
             resolve(coments);
           };
