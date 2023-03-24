@@ -1,4 +1,5 @@
 import { PublicationImage } from "../../classes/publication/image.js";
+import { returnImage } from "../../helpers/publication/image.js";
 import { con } from "../connection.js";
 
 class ImageDB {
@@ -19,10 +20,7 @@ class ImageDB {
           console.error(error);
         } else {
           if (result) {
-            let images: PublicationImage[] = result.map((data: any) => {
-              return new PublicationImage(data.id_image, data.url, data.deleted ? true : false)
-            }
-            );
+            let images: PublicationImage[] = result.map((data: any) => returnImage(data));
 
             resolve(images);
           };
@@ -43,10 +41,7 @@ class ImageDB {
           console.error(error);
         } else {
           if (result) {
-            let images: PublicationImage[] = result.map((data: any) => {
-              return new PublicationImage(data.id_image, data.url, data.deleted ? true : false)
-            }
-            );
+            let images: PublicationImage[] = result.map((data: any) => returnImage(data));
 
             resolve(images);
           };
