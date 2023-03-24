@@ -27,24 +27,17 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
 
   if (body.email && body.name && body.last_name && body.birthday && body.id_sex && body.id_settlement && body.password && body.create_date) {
 
-    const already_exist = await userdb.userExist(body.email)
+    if (typeof body.email == 'string' && typeof body.name == 'string' && typeof body.last_name == 'string' && typeof body.birthday == 'string' && typeof body.id_sex == 'number' && typeof body.id_settlement == 'number' && typeof body.password == 'string' && typeof body.create_date == 'string') {
 
-    if (already_exist.length == 0) {
-      const last_user = (await userdb.getLastUser())[0];
-      body.id_person = <number>last_user.getIdUser() + 1;
-      body.id_user = <number>last_user.getIdUser() + 1;
-      body.id_user_type = 2
+      const already_exist = await userdb.userExist(body.email)
 
-      bcrypt.genSalt(10, (err, Salt) => {
+      if (already_exist.length == 0) {
+        const last_user = (await userdb.getLastUser())[0];
+        body.id_person = <number>last_user.getIdUser() + 1;
+        body.id_user = <number>last_user.getIdUser() + 1;
+        body.id_user_type = 2
 
-        if (err) {
-          return res.status(200).send({
-            ok: false,
-            error: "Bcrypt Base Error"
-          });
-        }
-
-        bcrypt.hash(body.password, Salt, async (err, hash) => {
+        bcrypt.genSalt(10, (err, Salt) => {
 
           if (err) {
             return res.status(200).send({
@@ -53,20 +46,36 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
             });
           }
 
-          body.password = hash;
+          bcrypt.hash(body.password, Salt, async (err, hash) => {
 
-          const new_user = returnUser(body);
-
-          const save_person = await personbd.savePerson(new_user.getPerson());
-          if (save_person) {
-            const save_user = await userdb.saveUser(new_user);
-
-            if (save_user) {
-              const response_user = await userdb.getUser(new_user.getIdUser());
+            if (err) {
               return res.status(200).send({
-                ok: true,
-                user: returnUserJSON(response_user)
+                ok: false,
+                error: "Bcrypt Base Error"
               });
+            }
+
+            body.password = hash;
+
+            const new_user = returnUser(body);
+
+            const save_person = await personbd.savePerson(new_user.getPerson());
+            if (save_person) {
+              const save_user = await userdb.saveUser(new_user);
+
+              if (save_user) {
+                const response_user = await userdb.getUser(new_user.getIdUser());
+                return res.status(200).send({
+                  ok: true,
+                  user: returnUserJSON(response_user)
+                });
+              } else {
+                return res.status(200).send({
+                  ok: false,
+                  error: "Data Base Error"
+                });
+              }
+
             } else {
               return res.status(200).send({
                 ok: false,
@@ -74,20 +83,20 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
               });
             }
 
-          } else {
-            return res.status(200).send({
-              ok: false,
-              error: "Data Base Error"
-            });
-          }
+          })
 
         })
+      } else {
+        return res.status(200).send({
+          ok: false,
+          error: "User Already Exist"
+        });
+      }
 
-      })
     } else {
       return res.status(200).send({
         ok: false,
-        error: "User Already Exist"
+        error: "Invalid Data"
       });
     }
   } else {
@@ -141,21 +150,30 @@ userRoutes.delete("/delete-user", middleware, async (req, res) => {
 
   if (body.id_user && body.id_person) {
 
-    let id_user = <number>body.id_user;
+    if (typeof body.id_user == 'number' && typeof body.id_person == 'number') {
 
-    let user = returnUser(body)
+      let id_user = <number>body.id_user;
 
-    const deletedUser = await userdb.deleteUser(user)
+      let user = returnUser(body)
 
-    if (deletedUser) {
-      const deletedPerson = await personbd.deletePerson(user.getPerson());
+      const deletedUser = await userdb.deleteUser(user)
 
-      if (deletedPerson) {
+      if (deletedUser) {
+        const deletedPerson = await personbd.deletePerson(user.getPerson());
 
-        return res.status(200).send({
-          ok: true,
-          error: `Deleted user with id ${id_user}`
-        })
+        if (deletedPerson) {
+
+          return res.status(200).send({
+            ok: true,
+            error: `Deleted user with id ${id_user}`
+          })
+
+        } else {
+          return res.status(200).send({
+            ok: false,
+            error: "Data Base Error"
+          });
+        }
 
       } else {
         return res.status(200).send({
@@ -167,8 +185,8 @@ userRoutes.delete("/delete-user", middleware, async (req, res) => {
     } else {
       return res.status(200).send({
         ok: false,
-        error: "Data Base Error"
-      });
+        error: "Invalid Data"
+      })
     }
 
   } else {
