@@ -47,9 +47,11 @@ publicationRoutes.post('/create-publication', middleware, async (req, res) => {
 
   let { body } = req;
 
+  body.date = new Date()
+
   if (body.description && body.date && body.id_publication_type && body.id_user && body.id_settlement) {
 
-    if (typeof body.description == 'string' && typeof body.date == 'string' && typeof body.id_publication_type == 'number' && typeof body.id_user == 'number' && typeof body.id_settlement == 'number') {
+    if (typeof body.description == 'string' && body.date instanceof Date && typeof body.id_publication_type == 'number' && typeof body.id_user == 'number' && typeof body.id_settlement == 'number') {
 
       if (body?.images?.length > 0) {
 

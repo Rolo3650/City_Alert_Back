@@ -18,5 +18,18 @@ comentRoutes.get('/get-coments', middleware, async (req, res) => {
 
 });
 
+comentRoutes.post('/create-coment', middleware, async (req, res) => {
+
+  let { body } = req
+
+  body.date = new Date()
+
+  return res.status(200).send({
+    ok: true,
+    body
+  });
+
+});
+
 
 export { comentRoutes };
