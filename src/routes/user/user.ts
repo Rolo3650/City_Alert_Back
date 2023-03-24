@@ -25,9 +25,11 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
 
   let { body } = req;
 
+  body.create_date = new Date()
+
   if (body.email && body.name && body.last_name && body.birthday && body.id_sex && body.id_settlement && body.password && body.create_date) {
 
-    if (typeof body.email == 'string' && typeof body.name == 'string' && typeof body.last_name == 'string' && typeof body.birthday == 'string' && typeof body.id_sex == 'number' && typeof body.id_settlement == 'number' && typeof body.password == 'string' && typeof body.create_date == 'string') {
+    if (typeof body.email == 'string' && typeof body.name == 'string' && typeof body.last_name == 'string' && typeof body.birthday == 'string' && typeof body.id_sex == 'number' && typeof body.id_settlement == 'number' && typeof body.password == 'string' && body.create_date instanceof Date) {
 
       const already_exist = await userdb.userExist(body.email)
 
