@@ -1,4 +1,5 @@
 import { PublicationType } from "../../classes/publication/publicationType.js";
+import { returnPublicationType } from "../../helpers/publication/publicationType.js";
 import { con } from "../connection.js";
 
 class PublicationTypeDB {
@@ -19,10 +20,7 @@ class PublicationTypeDB {
           console.error(error);
         } else {
           if (result) {
-            let publicationTypes: PublicationType[] = result.map((data: any) => {
-              return new PublicationType(data.id_publication_type, data.publication_type)
-            }
-            );
+            let publicationTypes: PublicationType[] = result.map((data: any) => returnPublicationType(data));
 
             resolve(publicationTypes);
           };
