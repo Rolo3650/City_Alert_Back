@@ -14,7 +14,7 @@ class SexDB {
     const promise = new Promise<Sex[]>((resolve) => {
       this.#con.query(`
         SELECT * FROM csex
-        ORDER BY 'id_sex' DESC
+        ORDER BY \`id_sex\` DESC
       ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
@@ -29,6 +29,28 @@ class SexDB {
     });
     return promise;
   }
+
+  getSex = (id: number) => {
+    const promise = new Promise<Sex>((resolve) => {
+      this.#con.query(`
+        SELECT * FROM csex
+        WHERE \`id_sex\` = ${id}
+        ORDER BY \`id_sex\` DESC
+      ;`, (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          if (result) {
+            let sex: Sex = result.map((data: any) => returnSex(data));
+
+            resolve(sex);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
 
 };
 
