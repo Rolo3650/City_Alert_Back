@@ -1,4 +1,5 @@
 import { Sex } from "../../classes/user/sex.js";
+import { returnSex } from "../../helpers/user/sex.js";
 import { con } from "../connection.js";
 
 class SexDB {
@@ -19,10 +20,7 @@ class SexDB {
           console.error(error);
         } else {
           if (result) {
-            let sexs: Sex[] = result.map((data: any) => {
-              return new Sex(data.id_sex, data.sex)
-            }
-            );
+            let sexs: Sex[] = result.map((data: any) => returnSex(data));
 
             resolve(sexs);
           };
