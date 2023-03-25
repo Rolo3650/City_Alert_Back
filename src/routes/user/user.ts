@@ -4,10 +4,14 @@ import { PersonDB } from '../../database/user/person.js';
 import { UserDB } from '../../database/user/user.js';
 import { returnUser, returnUserJSON } from '../../helpers/user/user.js';
 import { middleware } from '../../middleware/index.js';
+import { SettlementDB } from '../../database/ubication/settlement.js';
+import { SexDB } from '../../database/user/sex.js';
 
 const userRoutes = express();
 const userdb = new UserDB();
 const personbd = new PersonDB();
+const settlementbd = new SettlementDB();
+const sexbd = new SexDB();
 
 userRoutes.get('/get-users', middleware, async (req, res) => {
 
@@ -31,24 +35,32 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
 
     if (typeof body.email == 'string' && typeof body.name == 'string' && typeof body.last_name == 'string' && typeof body.birthday == 'string' && typeof body.id_sex == 'number' && typeof body.id_settlement == 'number' && typeof body.password == 'string' && body.create_date instanceof Date) {
 
-      const already_exist = await userdb.userExist(body.email)
+      let response = {
+        ok: true,
+        error: ""
+      }
 
-      if (already_exist.length == 0) {
-        const last_user = (await userdb.getLastUser())[0];
-        body.id_person = <number>last_user.getIdUser() + 1;
-        body.id_user = <number>last_user.getIdUser() + 1;
-        body.id_user_type = 2
+      const settlement = await settlementbd.getSettlement(body.id_settlement);
+      const sex = await sexbd.getSex(body.id_sex);
 
-        bcrypt.genSalt(10, (err, Salt) => {
+      if (!settlement?.getIdSettlement()) {
+        response.error = "Settlement does not exist"
+        response.ok = false
+      } else if (!sex?.getIdSex()) {
+        response.error = "Sex does not exist"
+        response.ok = false
+      }
 
-          if (err) {
-            return res.status(200).send({
-              ok: false,
-              error: "Bcrypt Base Error"
-            });
-          }
+      if (response.ok) {
+        const already_exist = await userdb.userExist(body.email)
 
-          bcrypt.hash(body.password, Salt, async (err, hash) => {
+        if (already_exist.length == 0) {
+          const last_user = (await userdb.getLastUser())[0];
+          body.id_person = <number>last_user.getIdUser() + 1;
+          body.id_user = <number>last_user.getIdUser() + 1;
+          body.id_user_type = 2
+
+          bcrypt.genSalt(10, (err, Salt) => {
 
             if (err) {
               return res.status(200).send({
@@ -57,20 +69,36 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
               });
             }
 
-            body.password = hash;
+            bcrypt.hash(body.password, Salt, async (err, hash) => {
 
-            const new_user = returnUser(body);
-
-            const save_person = await personbd.savePerson(new_user.getPerson());
-            if (save_person) {
-              const save_user = await userdb.saveUser(new_user);
-
-              if (save_user) {
-                const response_user = await userdb.getUser(new_user.getIdUser());
+              if (err) {
                 return res.status(200).send({
-                  ok: true,
-                  user: returnUserJSON(response_user)
+                  ok: false,
+                  error: "Bcrypt Base Error"
                 });
+              }
+
+              body.password = hash;
+
+              const new_user = returnUser(body);
+
+              const save_person = await personbd.savePerson(new_user.getPerson());
+              if (save_person) {
+                const save_user = await userdb.saveUser(new_user);
+
+                if (save_user) {
+                  const response_user = await userdb.getUser(new_user.getIdUser());
+                  return res.status(200).send({
+                    ok: true,
+                    user: returnUserJSON(response_user)
+                  });
+                } else {
+                  return res.status(200).send({
+                    ok: false,
+                    error: "Data Base Error"
+                  });
+                }
+
               } else {
                 return res.status(200).send({
                   ok: false,
@@ -78,20 +106,19 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
                 });
               }
 
-            } else {
-              return res.status(200).send({
-                ok: false,
-                error: "Data Base Error"
-              });
-            }
+            })
 
           })
-
-        })
+        } else {
+          return res.status(200).send({
+            ok: false,
+            error: "User Already Exist"
+          });
+        }
       } else {
         return res.status(200).send({
           ok: false,
-          error: "User Already Exist"
+          error: response.error
         });
       }
 
