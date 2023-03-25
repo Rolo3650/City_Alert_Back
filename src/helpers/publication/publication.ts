@@ -9,51 +9,51 @@ import { User } from "../../classes/user/user.js";
 
 const returnPublicationJSON = (publication: Publication) => {
   return {
-    id_publication: publication.getIdPublication(),
-    description: publication.getDescription(),
-    date: publication.getDate(),
-    deleted: publication.getDeleted(),
-    solved: publication.getSolved(),
+    id_publication: publication?.getIdPublication(),
+    description: publication?.getDescription(),
+    date: publication?.getDate(),
+    deleted: publication?.getDeleted(),
+    solved: publication?.getSolved(),
     publication_type: {
-      id_publication_type: publication.getPublicationType()?.getIdPublicationType(),
-      publication_type: publication.getPublicationType()?.getPublicationType()
+      id_publication_type: publication?.getPublicationType()?.getIdPublicationType(),
+      publication_type: publication?.getPublicationType()?.getPublicationType()
     },
     user: {
-      id_user: publication.getUser()?.getIdUser(),
-      email: publication.getUser()?.getEmail(),
-      password: publication.getUser()?.getPassword(),
-      create_date: publication.getUser()?.getCreateDate(),
+      id_user: publication?.getUser()?.getIdUser(),
+      email: publication?.getUser()?.getEmail(),
+      password: publication?.getUser()?.getPassword(),
+      create_date: publication?.getUser()?.getCreateDate(),
       person: {
-        id_person: publication.getUser()?.getPerson()?.getIdPerson(),
-        name: publication.getUser()?.getPerson()?.getName(),
-        last_name: publication.getUser()?.getPerson()?.getLastName(),
-        birthday: publication.getUser()?.getPerson()?.getBirthday(),
+        id_person: publication?.getUser()?.getPerson()?.getIdPerson(),
+        name: publication?.getUser()?.getPerson()?.getName(),
+        last_name: publication?.getUser()?.getPerson()?.getLastName(),
+        birthday: publication?.getUser()?.getPerson()?.getBirthday(),
         sex: {
-          id_sex: publication.getUser()?.getPerson()?.getSex()?.getIdSex(),
-          sex: publication.getUser()?.getPerson()?.getSex()?.getSex()
+          id_sex: publication?.getUser()?.getPerson()?.getSex()?.getIdSex(),
+          sex: publication?.getUser()?.getPerson()?.getSex()?.getSex()
         },
         settlement: {
-          name: publication.getUser()?.getPerson()?.getSettlement()?.getName(),
+          name: publication?.getUser()?.getPerson()?.getSettlement()?.getName(),
           pc: {
-            id_pc: publication.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getIdPC(),
+            id_pc: publication?.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getIdPC(),
             state: {
-              id_state: publication.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getState()?.getIdState(),
-              state: publication.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getState()?.getState()
+              id_state: publication?.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getState()?.getIdState(),
+              state: publication?.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getState()?.getState()
             },
             municipality: {
-              id_municipality: publication.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getMunicipality()?.getIdMunicipality(),
-              municipality: publication.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getMunicipality()?.getMunicipality()
+              id_municipality: publication?.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getMunicipality()?.getIdMunicipality(),
+              municipality: publication?.getUser()?.getPerson()?.getSettlement()?.getZipPC()?.getMunicipality()?.getMunicipality()
             }
           },
           settlement: {
-            id_settllement_type: publication.getUser()?.getPerson()?.getSettlement()?.getSettlementType()?.getIdSettlementType(),
-            settllement_type: publication.getUser()?.getPerson()?.getSettlement()?.getSettlementType()?.getSettlementType()
+            id_settllement_type: publication?.getUser()?.getPerson()?.getSettlement()?.getSettlementType()?.getIdSettlementType(),
+            settllement_type: publication?.getUser()?.getPerson()?.getSettlement()?.getSettlementType()?.getSettlementType()
           }
         }
       },
       user_type: {
-        id_user_type: publication.getUser()?.getUserType()?.getIdUserType(),
-        user_type: publication.getUser()?.getUserType()?.getUserType()
+        id_user_type: publication?.getUser()?.getUserType()?.getIdUserType(),
+        user_type: publication?.getUser()?.getUserType()?.getUserType()
       }
     },
     settlement: {
