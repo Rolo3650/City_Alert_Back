@@ -1,8 +1,5 @@
-import { Municipality } from "../../classes/ubication/municipality.js";
-import { PostalCode } from "../../classes/ubication/postalCode.js";
 import { Settlement } from "../../classes/ubication/settlement.js";
-import { SettlementType } from "../../classes/ubication/settlementType.js";
-import { State } from "../../classes/ubication/state.js";
+import { returnSettlement } from "../../helpers/ubication/settlement.js";
 import { con } from "../connection.js";
 
 class SettlementDB {
@@ -27,17 +24,7 @@ class SettlementDB {
           console.error(error);
         } else {
           if (result) {
-            let postalCodes: Settlement[] = result.map((data: any) => {
-              const st = new State(data.id_state, data.state);
-              const mn = new Municipality(data.id_municipality, data.municipality);
-
-              const pc = new PostalCode(data.zip_pc, st, mn);
-
-              const stl_type = new SettlementType(data.id_settlement_type, data.settlement_type)
-
-              return new Settlement(data.id_settlement, data.settlement, pc, stl_type)
-            }
-            );
+            let postalCodes: Settlement[] = result.map((data: any) => returnSettlement(data));
 
             resolve(postalCodes);
           };
