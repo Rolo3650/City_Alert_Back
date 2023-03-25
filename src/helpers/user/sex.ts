@@ -2,8 +2,8 @@ import { Sex } from "../../classes/user/sex.js";
 
 const returnSexJSON = (sex: Sex) => {
   return {
-    id_sex: sex.getIdSex(),
-    sex: sex.getSex(),
+    id_sex: sex?.getIdSex(),
+    sex: sex?.getSex(),
   }
 };
 

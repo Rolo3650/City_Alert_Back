@@ -41,7 +41,7 @@ class SexDB {
           console.error(error);
         } else {
           if (result) {
-            let sex: Sex = result.map((data: any) => returnSex(data));
+            let sex: Sex = result.map((data: any) => returnSex(data))[0];
 
             resolve(sex);
           };
