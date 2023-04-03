@@ -14,7 +14,7 @@ class SexDB {
     const promise = new Promise<Sex[]>((resolve) => {
       this.#con.query(`
         SELECT * FROM csex
-        ORDER BY \`id_sex\` DESC
+        ORDER BY \`id_sex\` ASC
       ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
