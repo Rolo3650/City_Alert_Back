@@ -1,3 +1,5 @@
+import { regex } from "./regex.js";
+
 const config = {
   PORT: 4000,
   DB_HOST: 'localhost',
@@ -7,6 +9,8 @@ const config = {
   DB_PORT: 3306,
 
   SALTROUNDS : 10,
+
+  regex: regex()
 };
 
 export { config };

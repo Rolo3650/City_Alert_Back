@@ -25,6 +25,41 @@ userRoutes.get('/get-users', middleware, async (req, res) => {
 
 });
 
+userRoutes.post('/users-registered', middleware, async (req, res) => {
+
+  let { body } = req;
+
+  if (body?.email) {
+    if (typeof body.email === 'string') {
+      const already_exist = await userdb.userExist(body.email)
+
+      if (already_exist.length == 0) {
+        return res.status(200).send({
+          ok: true,
+          message: "User does not exist"
+        });
+      } else {
+        return res.status(200).send({
+          ok: false,
+          error: 'User already exists'
+        });
+      }
+    } else {
+      return res.status(200).send({
+        ok: false,
+        error: 'Invalid Data'
+      });
+    }
+
+  } else {
+    return res.status(200).send({
+      ok: false,
+      error: 'Mising Data'
+    });
+  }
+
+});
+
 userRoutes.post('/sign-up', middleware, async (req, res) => {
 
   let { body } = req;
