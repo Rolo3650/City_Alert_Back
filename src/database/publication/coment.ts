@@ -118,8 +118,8 @@ class ComentDB {
         \`coment\`,
         \`date\`,
         \`deleted\`,
-        \`id_publication\`,
-        \`id_user\`)
+        \`id_user\`,
+        \`id_publication\`)
         VALUES (
         '${coment?.getIdComent()}',
         '${coment?.getComent()}',
