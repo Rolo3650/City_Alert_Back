@@ -130,6 +130,7 @@ class ComentDB {
       ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
+          resolve(false);
         } else {
           if (result) {
             if (result.serverStatus == 2) {
