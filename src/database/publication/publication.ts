@@ -22,7 +22,7 @@ class PublicationDB {
         INNER JOIN cstate AS st ON pc.id_state = st.id_state
         INNER JOIN cmunicipality AS mu ON pc.id_municipality = mu.id_municipality
         INNER JOIN csettlementtype AS stl_type ON stl.id_settlement_type = stl_type.id_settlement_type
-        ORDER BY 'id_publication' DESC
+        ORDER BY \`id_publication\` DESC
       ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);

@@ -73,7 +73,7 @@ comentRoutes.post('/create-coment', middleware, async (req, res) => {
 
           return res.status(200).send({
             ok: true,
-            body
+            coment: body
           });
 
         } else {
