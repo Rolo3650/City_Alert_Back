@@ -8,7 +8,7 @@
     "test": "jest",
     "compile": "npx tsc",
     "watch": "npx tsc --watch",
-    "start": "nodemon dist/app --exec babel-node"
+    "start": "nodemon ./dist/app --exec babel-node"
   },
   "author": "Rodrigo Morales",
   "license": "MIT",
