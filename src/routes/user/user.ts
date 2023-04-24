@@ -25,6 +25,42 @@ userRoutes.get('/get-users', middleware, async (req, res) => {
 
 });
 
+userRoutes.post('/get-user', middleware, async (req, res) => {
+
+  let { body } = req;
+
+  if (body.id_user) {
+    if (typeof body.id_user === 'number') {
+
+      const user = await userdb.getUser(body.id_user)
+
+      if (user?.getIdUser()) {
+        return res.status(200).send({
+          ok: true,
+          user: returnUserJSON(user)
+        });
+      } else {
+        return res.status(200).send({
+          ok: false,
+          error: "User does not exist"
+        });
+      }
+
+    } else {
+      return res.status(200).send({
+        ok: false,
+        error: 'Invalid Data'
+      });
+    }
+  } else {
+    return res.status(200).send({
+      ok: false,
+      error: 'Missing Data'
+    });
+  }
+
+});
+
 userRoutes.post('/users-registered', middleware, async (req, res) => {
 
   let { body } = req;
