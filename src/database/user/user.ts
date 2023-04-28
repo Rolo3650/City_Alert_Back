@@ -23,6 +23,7 @@ class UserDB {
         INNER JOIN cstate AS st ON pc.id_state = st.id_state
         INNER JOIN cmunicipality AS mu ON pc.id_municipality = mu.id_municipality
         INNER JOIN csettlementtype AS stl_type ON stl.id_settlement_type = stl_type.id_settlement_type
+        INNER JOIN mavatar AS av ON us.id_avatar = av.id_avatar
         ORDER BY 'id_user' DESC
       ;`, (error: any, result: any) => {
         if (error) {
@@ -50,6 +51,7 @@ class UserDB {
         INNER JOIN cstate AS st ON pc.id_state = st.id_state
         INNER JOIN cmunicipality AS mu ON pc.id_municipality = mu.id_municipality
         INNER JOIN csettlementtype AS stl_type ON stl.id_settlement_type = stl_type.id_settlement_type
+        INNER JOIN mavatar AS av ON us.id_avatar = av.id_avatar
         WHERE us.id_user = ${id}
         ORDER BY 'id_user' DESC
       ;`, (error: any, result: any) => {
@@ -78,6 +80,7 @@ class UserDB {
         INNER JOIN cstate AS st ON pc.id_state = st.id_state
         INNER JOIN cmunicipality AS mu ON pc.id_municipality = mu.id_municipality
         INNER JOIN csettlementtype AS stl_type ON stl.id_settlement_type = stl_type.id_settlement_type
+        INNER JOIN mavatar AS av ON us.id_avatar = av.id_avatar
         WHERE us.email = "${email}"
         ORDER BY \`id_user\` DESC
       ;`, (error: any, result: any) => {
@@ -106,6 +109,7 @@ class UserDB {
         INNER JOIN cstate AS st ON pc.id_state = st.id_state
         INNER JOIN cmunicipality AS mu ON pc.id_municipality = mu.id_municipality
         INNER JOIN csettlementtype AS stl_type ON stl.id_settlement_type = stl_type.id_settlement_type
+        INNER JOIN mavatar AS av ON us.id_avatar = av.id_avatar
         ORDER BY \`id_user\` DESC
         LIMIT 1
       ;`, (error: any, result: any) => {
@@ -134,6 +138,7 @@ class UserDB {
         INNER JOIN cstate AS st ON pc.id_state = st.id_state
         INNER JOIN cmunicipality AS mu ON pc.id_municipality = mu.id_municipality
         INNER JOIN csettlementtype AS stl_type ON stl.id_settlement_type = stl_type.id_settlement_type
+        INNER JOIN mavatar AS av ON us.id_avatar = av.id_avatar
         WHERE us.email = "${email}"
         ORDER BY 'id_user' DESC
         LIMIT 1
