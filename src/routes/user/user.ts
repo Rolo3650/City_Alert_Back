@@ -6,9 +6,11 @@ import { returnUser, returnUserJSON } from '../../helpers/user/user.js';
 import { middleware } from '../../middleware/index.js';
 import { SettlementDB } from '../../database/ubication/settlement.js';
 import { SexDB } from '../../database/user/sex.js';
+import { AvatarDB } from '../../database/user/avatar.js';
 
 const userRoutes = express();
 const userdb = new UserDB();
+const avatardb = new AvatarDB();
 const personbd = new PersonDB();
 const settlementbd = new SettlementDB();
 const sexbd = new SexDB();
@@ -127,9 +129,13 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
 
         if (already_exist.length == 0) {
           const last_user = (await userdb.getLastUser())[0];
+          const last_avatar = (await avatardb.getLastAvatar())[0];
           body.id_person = <number>last_user.getIdUser() + 1;
           body.id_user = <number>last_user.getIdUser() + 1;
           body.id_user_type = 2
+          body.id_avatar = <number>last_avatar.getIdAvatar() + 1;
+          body.url = "_";
+          body.deleted = false;
 
           bcrypt.genSalt(10, (err, Salt) => {
 
@@ -155,20 +161,31 @@ userRoutes.post('/sign-up', middleware, async (req, res) => {
 
               const save_person = await personbd.savePerson(new_user.getPerson());
               if (save_person) {
-                const save_user = await userdb.saveUser(new_user);
 
-                if (save_user) {
-                  const response_user = await userdb.getUser(new_user.getIdUser());
-                  return res.status(200).send({
-                    ok: true,
-                    user: returnUserJSON(response_user)
-                  });
+                const save_avatar = await avatardb.saveAvatar(new_user.getAvatar())
+
+                if (save_avatar) {
+                  const save_user = await userdb.saveUser(new_user);
+
+                  if (save_user) {
+                    const response_user = await userdb.getUser(new_user.getIdUser());
+                    return res.status(200).send({
+                      ok: true,
+                      user: returnUserJSON(response_user)
+                    });
+                  } else {
+                    return res.status(200).send({
+                      ok: false,
+                      error: "Data Base Error"
+                    });
+                  }
                 } else {
                   return res.status(200).send({
                     ok: false,
                     error: "Data Base Error"
                   });
                 }
+
 
               } else {
                 return res.status(200).send({

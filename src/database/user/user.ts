@@ -165,14 +165,16 @@ class UserDB {
         \`password\`,
         \`create_date\`,
         \`id_person\`,
-        \`id_user_type\`)
+        \`id_user_type\`,
+        \`id_avatar\`)
         VALUES (
         '${user?.getIdUser()}',
         '${user?.getEmail()}',
         '${user?.getPassword()}',
         '${moment(user?.getCreateDate()).format("YYYY-MM-DD")}',
         '${user?.getPerson()?.getIdPerson()}',
-        '${user?.getUserType()?.getIdUserType()}')
+        '${user?.getUserType()?.getIdUserType()}',
+        '${user?.getAvatar()?.getIdAvatar()}')
       ;`, (error: any, result: any) => {
         if (error) {
           console.error(error);
