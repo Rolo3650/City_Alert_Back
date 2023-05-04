@@ -320,4 +320,44 @@ userRoutes.delete("/delete-user", middleware, async (req, res) => {
 
 })
 
+userRoutes.post('/user-update', middleware, async (req, res) => {
+
+  let { body } = req
+
+  if (body.id_user && body.name && body.last_name && body.birthday && body.id_sex && body.id_settlement && body.url) {
+
+    if (typeof body.id_user == 'number' && typeof body.name == 'string' && typeof body.last_name && typeof body.birthday == 'string' && typeof body.id_sex == 'number' && typeof body.id_settlement == 'number' && typeof body.url == 'string') {
+
+      const user = returnUser(body);
+
+      const updated_person = await personbd.updatePerson(user.getPerson());
+      const updated_avatar = await avatardb.updateAvatar(user.getAvatar());
+
+      if (updated_avatar && updated_person) {
+        return res.status(200).send({
+          ok: true,
+          user: returnUserJSON(user)
+        })
+      } else {
+        return res.status(200).send({
+          ok: false,
+          error: "BD error"
+        })
+      }
+
+    } else {
+      return res.status(200).send({
+        ok: false,
+        error: "Invalid Data"
+      })
+    }
+  } else {
+    return res.status(200).send({
+      ok: false,
+      error: "Missing Params"
+    })
+  }
+
+})
+
 export { userRoutes };

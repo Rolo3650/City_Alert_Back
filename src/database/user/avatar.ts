@@ -61,6 +61,32 @@ class AvatarDB {
     return promise;
   }
 
+  updateAvatar = (avatar: Avatar | null | undefined) => {
+    const promise = new Promise<boolean>((resolve) => {
+      this.#con.query(`
+        UPDATE \`mavatar\`
+        SET \`url\` = '${avatar?.getUrl()}',
+        \`deleted\` = '${avatar?.getDeleted() ? '1' : '0'}'
+        WHERE (\`id_avatar\` = '${avatar?.getIdAvatar()}')
+      ;`, (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          if (result) {
+            if (result.serverStatus == 2) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          } else {
+            resolve(false);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
 }
 
 export {

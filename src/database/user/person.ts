@@ -78,7 +78,37 @@ class PersonDB {
           console.error(error);
         } else {
           if (result) {
-            if (result.serverStatus == 2){
+            if (result.serverStatus == 2) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          } else {
+            resolve(false);
+          };
+        };
+      });
+    });
+    return promise;
+  }
+
+  updatePerson = (person: Person | null | undefined) => {
+    const promise = new Promise<boolean>((resolve) => {
+      this.#con.query(`
+      UPDATE \`mperson\`
+      SET \`name\` = '${person?.getName()}',
+      \`last_name\` = '${person?.getLastName()}',
+      \`birthday\` = '${moment(person?.getBirthday() ?? new Date()).format("YYYY-MM-DD")}',
+      \`id_sex\` = '${person?.getSex()?.getIdSex()}',
+      \`id_settlement\` = '${person?.getSettlement()?.getIdSettlement()}'
+      WHERE (\`id_person\` = '${person?.getIdPerson()}')
+      ;
+      `, (error: any, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          if (result) {
+            if (result.serverStatus == 2) {
               resolve(true);
             } else {
               resolve(false);
@@ -102,7 +132,7 @@ class PersonDB {
           resolve(false);
         } else {
           if (result) {
-            if (result.serverStatus == 2){
+            if (result.serverStatus == 2) {
               resolve(true);
             } else {
               resolve(false);
