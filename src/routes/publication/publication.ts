@@ -216,4 +216,40 @@ publicationRoutes.post('/create-publication', middleware, async (req, res) => {
 
 });
 
+publicationRoutes.post('/get-publications-by-settlement', middleware, async (req, res) => {
+
+  let { body } = req
+
+  if (body.id_settlement) {
+    const publications = await publicationbd.getPublicationBySettlement(body.id_settlement);
+
+    for (var i = 0; i < publications.length; i++) {
+      const user = await userbd.getUser(publications[i]?.getUser()?.getIdUser())
+      const reactions = await reactionbd.getReactionsPerPublication(publications[i]?.getIdPublication())
+      const coments = await comentbd.getComentsPerPublication(publications[i]?.getIdPublication())
+      const images = await imagebd.getImagesPerPublication(publications[i]?.getIdPublication())
+
+      publications[i]?.setUser(user)
+      publications[i]?.setReactions(reactions)
+      publications[i]?.setComents(coments)
+      publications[i]?.setImages(images)
+    }
+
+    const publications_array = publications.map((publication) => {
+      return returnPublicationJSON(publication)
+    });
+
+    return res.status(200).send({
+      ok: true,
+      publications_array
+    });
+  } else {
+    return res.status(200).send({
+      ok: false,
+      error: "Missing Params"
+    });
+  }
+
+});
+
 export { publicationRoutes };

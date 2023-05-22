@@ -54,6 +54,11 @@ const returnPublicationJSON = (publication: Publication) => {
       user_type: {
         id_user_type: publication?.getUser()?.getUserType()?.getIdUserType(),
         user_type: publication?.getUser()?.getUserType()?.getUserType()
+      },
+      avatar: {
+        id_avatar: publication.getUser()?.getAvatar()?.getIdAvatar(),
+        url: publication.getUser()?.getAvatar()?.getUrl(),
+        deleted: publication.getUser()?.getAvatar()?.getDeleted()
       }
     },
     settlement: {
@@ -112,6 +117,11 @@ const returnPublicationJSON = (publication: Publication) => {
         user_type: {
           id_user_type: reaction.getUser()?.getUserType()?.getIdUserType(),
           user_type: reaction.getUser()?.getUserType()?.getUserType()
+        },
+        avatar: {
+          id_avatar: reaction.getUser()?.getAvatar()?.getIdAvatar(),
+          url: reaction.getUser()?.getAvatar()?.getUrl(),
+          deleted: reaction.getUser()?.getAvatar()?.getDeleted()
         }
       },
       reacted: reaction.getReacted(),
@@ -157,6 +167,11 @@ const returnPublicationJSON = (publication: Publication) => {
         user_type: {
           id_user_type: coment.getUser()?.getUserType()?.getIdUserType(),
           user_type: coment.getUser()?.getUserType()?.getUserType()
+        },
+        avatar: {
+          id_avatar: coment.getUser()?.getAvatar()?.getIdAvatar(),
+          url: coment.getUser()?.getAvatar()?.getUrl(),
+          deleted: coment.getUser()?.getAvatar()?.getDeleted()
         }
       }
     })),
@@ -180,7 +195,7 @@ const returnPublication = (data :any) => {
 
   const pu_type = new PublicationType(data.id_publication_type, data.publication_type);
 
-  const us = new User(data.id_user, null, null, null, null, null)
+  const us = new User(data.id_user, null, null, null, null, null, null)
 
   return new Publication(data.id_publication, data.description, new Date(data.date), data.deleted ? true : false, data.solved ? true : false, pu_type, us, stl, null, null, null)
 }

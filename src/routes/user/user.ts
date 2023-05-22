@@ -334,9 +334,11 @@ userRoutes.post('/user-update', middleware, async (req, res) => {
       const updated_avatar = await avatardb.updateAvatar(user.getAvatar());
 
       if (updated_avatar && updated_person) {
+        const updated_user = await userdb.getUser(body.id_user);
+
         return res.status(200).send({
           ok: true,
-          user: returnUserJSON(user)
+          user: returnUserJSON(updated_user)
         })
       } else {
         return res.status(200).send({

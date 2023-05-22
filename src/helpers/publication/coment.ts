@@ -4,6 +4,7 @@ import { PostalCode } from "../../classes/ubication/postalCode.js";
 import { Settlement } from "../../classes/ubication/settlement.js";
 import { SettlementType } from "../../classes/ubication/settlementType.js";
 import { State } from "../../classes/ubication/state.js";
+import { Avatar } from "../../classes/user/avatar.js";
 import { Person } from "../../classes/user/person.js";
 import { Sex } from "../../classes/user/sex.js";
 import { User } from "../../classes/user/user.js";
@@ -72,7 +73,9 @@ const returnComent = (data: any) => {
 
   const us_type = new UserType(data.id_user_type, data.user_type)
 
-  const us = new User(data.id_user, data.email, data.password, new Date(data.create_date), pe, us_type)
+  const avatar = new Avatar(data.id_avatar, data.url, data.deleted)
+
+  const us = new User(data.id_user, data.email, data.password, new Date(data.create_date), pe, us_type, avatar)
 
 
   return new Coment(data.id_coment, data.coment, new Date(data.date), data.deleted ? true : false, us)
